@@ -1,0 +1,33 @@
+---
+# Install chruby
+
+- name: Check if chruby is installed
+  shell: '/usr/local/bin/chruby-exec --version | cut -f3 -d\ '
+  register: chruby_installed_version
+  ignore_errors: True
+
+- name: Install build-essential
+  apt: name=build-essential state=present
+  when: chruby_installed_version.stdout != "{{ chruby_version }}"
+
+- name: Download chruby tarball
+  get_url: url=https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz dest=/usr/local/src/chruby-{{ chruby_version }}.tar.gz
+  when: chruby_installed_version.stdout != "{{ chruby_version }}"
+
+- name: Extract chruby tarball
+  shell: tar xfz /usr/local/src/chruby-{{ chruby_version }}.tar.gz -C /usr/local/src
+  when: chruby_installed_version.stdout != "{{ chruby_version }}"
+
+- name: Compile and install chruby
+  shell: make install chdir=/usr/local/src/chruby-{{ chruby_version }}
+  when: chruby_installed_version.stdout != "{{ chruby_version }}"
+
+- name: Add chruby to shell profile
+  template: src=chruby.j2 dest=/etc/profile.d/chruby.sh owner=root group=root mode=0755
+  when: chruby_installed_version.stdout != "{{ chruby_version }}"
+
+- name: Clean up chruby sources
+  file: path={{ item }} state=absent
+  with_items:
+    - /usr/local/src/chruby-{{ chruby_version }}
+    - /usr/local/src/chruby-{{ chruby_version }}.tar.gz

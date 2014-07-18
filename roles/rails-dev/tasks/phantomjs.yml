@@ -1,0 +1,32 @@
+---
+# Install PhantomJS
+
+# - name: Check if PhantomJS is installed
+#   shell:
+
+- name: Install libfontconfig1
+  apt: name=libfontconfig1 state=latest
+
+- name: Check if PhantomJS is installed
+  shell: test -e /opt/phantomjs/bin/phantomjs && /opt/phantomjs/bin/phantomjs --version
+  register: phantomjs_installed_version
+  ignore_errors: True
+
+- name: Download PhantomJS tarball
+  get_url: url=https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-{{ phantomjs_version }}-linux-{{ ansible_machine }}.tar.bz2 dest=/opt
+  when: phantomjs_installed_version.stdout != "{{ phantomjs_version }}"
+
+- name: Extract PhantomJS tarball
+  shell: tar -xjf /opt/phantomjs-{{ phantomjs_version }}-linux-{{ ansible_machine }}.tar.bz2 -C /opt
+  when: phantomjs_installed_version.stdout != "{{ phantomjs_version }}"
+
+- name: Link PhantomJS directory
+  file: src=/opt/phantomjs-{{ phantomjs_version }}-linux-{{ ansible_machine }} path=/opt/phantomjs state=link
+  when: phantomjs_installed_version.stdout != "{{ phantomjs_version }}"
+
+- name: Add PhantomJS to shell profile
+  copy: content='export PATH=/opt/phantomjs/bin:$PATH' dest=/etc/profile.d/phantomjs.sh owner=root group=root mode=0755
+  when: phantomjs_installed_version.stdout != "{{ phantomjs_version }}"
+
+- name: Remove PhantomJS tarball
+  file: path=/opt/phantomjs-{{ phantomjs_version }}-linux-{{ ansible_machine }}.tar.bz2 state=absent

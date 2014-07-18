@@ -1,0 +1,24 @@
+---
+
+- name: Check if Ruby is installed
+  shell: 'ls /opt/rubies/ | grep {{ ruby_version }}'
+  register: ruby_installed
+  ignore_errors: True
+
+- name: Install Ruby
+  shell: /usr/local/bin/ruby-install ruby {{ ruby_version }}
+  ignore_errors: True
+  register: ruby_built
+  when: ruby_installed.rc != 0
+
+- name: Remove Ruby compilation artifacts
+  shell: /bin/rm -r /usr/local/src/ruby-{{ ruby_version }}*
+  ignore_errors: True
+  when: ruby_built is defined and ruby_built.rc == 0
+
+- name: Install gemrc
+  copy: src=gemrc dest=/home/{{ ansible_ssh_user }}/.gemrc
+
+- name: Install bundler
+  shell: /usr/local/bin/chruby-exec ruby {{ ruby_version }} -- gem install bundler
+  when: ruby_installed.rc != 0

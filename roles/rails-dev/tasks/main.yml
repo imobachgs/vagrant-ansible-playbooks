@@ -1,0 +1,9 @@
+---
+
+- include: chruby.yml
+- include: ruby-install.yml
+- include: db.yml
+- include: phantomjs.yml
+- include: headless.yml
+- include: packages.yml
+- include: ruby.yml

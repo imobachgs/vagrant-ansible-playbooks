@@ -1,0 +1,5 @@
+---
+# Clean up some files to free space
+
+- name: Clean APT's cache
+  shell: apt-get clean

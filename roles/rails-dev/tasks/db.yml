@@ -1,0 +1,21 @@
+---
+# Set up PostgreSQL
+
+- name: Install psycopg2
+  apt: name=python-psycopg2 state=latest
+
+- name: Install PostgreSQL along with library headers
+  apt: name=postgresql state=latest
+  with_items:
+    - postgresql
+    - libpq-dev
+
+- name: Add a 'rails' user
+  sudo_user: postgres
+  postgresql_user: name=rails password=vagrant role_attr_flags=CREATEDB state=present
+
+- name: Install SQLite3
+  apt: name={{ item }} state=latest
+  with_items:
+    - sqlite3
+    - libsqlite3-dev

@@ -1,0 +1,7 @@
+---
+
+- name: Add extra packages
+  apt: name={{ item }}
+  with_items:
+    - libxslt1-dev
+    - libxml2-dev

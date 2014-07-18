@@ -1,0 +1,25 @@
+---
+# Install ruby-install
+
+- name: Check if chruby is installed
+  shell: '/usr/local/bin/ruby-install --version | cut -f2 -d\ '
+  register: ruby_install_installed_version
+  ignore_errors: True
+
+- name: Download ruby-install tarball
+  get_url: url=https://github.com/postmodern/ruby-install/archive/v{{ ruby_install_version }}.tar.gz dest=/usr/local/src/ruby-install-{{ ruby_install_version }}.tar.gz
+  when: ruby_install_installed_version.stdout != "{{ ruby_install_version }}"
+
+- name: Extract ruby-install tarball
+  shell: tar xfz /usr/local/src/ruby-install-{{ ruby_install_version }}.tar.gz -C /usr/local/src
+  when: ruby_install_installed_version.stdout != "{{ ruby_install_version }}"
+
+- name: Compile and install ruby-install
+  shell: make install chdir=/usr/local/src/ruby-install-{{ ruby_install_version }}
+  when: ruby_install_installed_version.stdout != "{{ ruby_install_version }}"
+
+- name: Clean up ruby-install sources
+  file: path={{ item }} state=absent
+  with_items:
+    - /usr/local/src/ruby-install-{{ ruby_install_version }}
+    - /usr/local/src/ruby-install-{{ ruby_install_version }}.tar.gz

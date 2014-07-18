@@ -1,0 +1,37 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          xvfb
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:
+# X-Start-Before:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Provide a Xvfb server.
+# Description: Provide a Xvfb server to do headless testing.
+### END INIT INFO
+
+PIDFILE=/var/run/xvfb.pid
+XVFB_BIN=/usr/bin/Xvfb
+DISPLAY=":1"
+PARAMS="-ac"
+[ -r /etc/default/xvfb ] && . /etc/default/xvfb
+
+set -e
+
+case "$1" in
+  start)
+  start-stop-daemon --start --quiet --pidfile $PIDFILE --exec /usr/bin/Xvfb --background --make-pidfile -- $DISPLAY $PARAMS
+	;;
+  stop)
+  start-stop-daemon --stop --pidfile $PIDFILE --name Xvfb
+	;;
+  reload|restart|force-reload|status)
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart|force-reload|status}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
