@@ -1,0 +1,10 @@
+---
+- name: Apply Rails configuration
+  hosts: all
+  sudo: yes
+  roles:
+    - common
+    - rails-dev
+  tasks:
+    - name: Clean APT's cache
+      shell: apt-get clean
