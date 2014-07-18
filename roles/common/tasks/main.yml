@@ -1,0 +1,33 @@
+---
+# This playbook contains common plays for all nodes.
+
+- name: Update APT's cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install tmux
+  apt: name=tmux state=latest
+
+- name: Configure tmux
+  copy: src=tmux.conf dest=/etc/tmux.conf force=yes
+
+- name: Install Vim
+  apt: name=vim state=latest
+  when: install_vim
+
+- name: Install Emacs
+  apt: name=emacs state=latest
+  when: install_emacs
+
+- name: Install Zsh
+  apt: name=zsh state=latest
+  when: install_zsh
+
+- name: Install Git
+  apt: name=git state=latest
+  when: install_git
+
+- name: Generate default locale
+  locale_gen: name={{ locale }} state=present
+
+- name: Set default locale
+  command: /usr/sbin/update-locale LANG={{ locale }}

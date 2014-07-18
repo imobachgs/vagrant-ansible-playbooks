@@ -1,0 +1,6 @@
+---
+install_emacs: False
+install_vim: True
+install_zsh: True
+install_git: True
+locale: "en_US.UTF-8"
