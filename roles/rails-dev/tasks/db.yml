@@ -5,7 +5,8 @@
   apt: name=python-psycopg2 state=latest
 
 - name: Install PostgreSQL along with library headers
-  apt: name=postgresql state=latest
+  apt: name={{ item }} state=latest
+  environment: postgresql_env
   with_items:
     - postgresql
     - libpq-dev

@@ -6,3 +6,6 @@ phantomjs_version: 1.9.7
 install_xvfb: False
 install_firefox: False
 install_webkit: False
+postgresql_env:
+  LC_CTYPE: "{{ locale }}"
+  LC_COLLATE: "{{ locale }}"
