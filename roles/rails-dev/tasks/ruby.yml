@@ -17,7 +17,7 @@
   when: ruby_built is defined and ruby_built.rc == 0
 
 - name: Install gemrc
-  copy: src=gemrc dest=/home/{{ ansible_ssh_user }}/.gemrc
+  copy: src=gemrc dest=/home/{{ ansible_ssh_user }}/.gemrc owner=vagrant group=vagrant
 
 - name: Install bundler
   shell: /usr/local/bin/chruby-exec ruby {{ ruby_version }} -- gem install bundler
