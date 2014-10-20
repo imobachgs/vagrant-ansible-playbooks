@@ -1,0 +1,6 @@
+---
+# Install Firefox (Iceweasel on Debian)
+
+- name: Install Firefox
+  apt: name=iceweasel state=latest
+  when: install_firefox

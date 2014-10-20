@@ -1,0 +1,5 @@
+---
+phantomjs_version: 1.9.7
+install_xvfb: False
+install_firefox: False
+install_webkit: False

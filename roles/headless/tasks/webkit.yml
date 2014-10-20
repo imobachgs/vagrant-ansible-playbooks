@@ -1,0 +1,5 @@
+---
+
+- name: Install Webkit
+  apt: name=libqtwebkit-dev state=latest
+  when: install_webkit

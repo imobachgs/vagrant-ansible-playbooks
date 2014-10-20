@@ -1,0 +1,18 @@
+- name: Install NodeJS repo requirements
+  apt: name={{ item }} state=latest cache_valid_time=3600 update_cache=true
+  with_items:
+    - apt-transport-https
+
+- name: Add NodeJS keys
+  apt_key: url=https://deb.nodesource.com/gpgkey/nodesource.gpg.key state=present
+
+- name: Add NodeJS repository
+  apt_repository: repo='deb https://deb.nodesource.com/node wheezy main' state=present update_cache=true
+
+- name: Install NodeJS packages
+  apt: name={{ item }} state=latest cache_valid_time=3600 update_cache=true
+  with_items:
+    - nodejs
+
+- name: Install bower
+  npm: name=bower global=yes

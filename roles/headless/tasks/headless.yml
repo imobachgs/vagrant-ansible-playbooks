@@ -1,8 +1,11 @@
 ---
 # Install software to execute tests in headless mode
 
-- name: Install Xvfb
-  apt: name=xvfb state=latest
+- name: Install Xvfb and x11vnc
+  apt: name={{ item }} state=latest
+  with_items:
+    - xvfb
+    - x11vnc
   when: install_xvfb
 
 - name: Add Xvfb sys-v script
@@ -13,14 +16,6 @@
   copy: content='export DISPLAY=:1' dest=/etc/profile.d/x-display.sh owner=root group=root mode=0755
   when: install_xvfb
 
-- name: Start xfvb service
+- name: Start Xfvb service
   service: name=xvfb state=started
   when: install_xvfb
-
-- name: Install Firefox
-  apt: name=iceweasel state=latest
-  when: install_firefox
-
-- name: Install Webkit
-  apt: name=libqtwebkit-dev state=latest
-  when: install_webkit

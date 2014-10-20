@@ -1,9 +1,6 @@
 ---
 # Install PhantomJS
 
-# - name: Check if PhantomJS is installed
-#   shell:
-
 - name: Install libfontconfig1
   apt: name=libfontconfig1 state=latest
 

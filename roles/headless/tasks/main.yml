@@ -1,0 +1,6 @@
+---
+
+- include: firefox.yml
+- include: headless.yml
+- include: phantomjs.yml
+- include: webkit.yml
