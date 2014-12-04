@@ -4,6 +4,7 @@
   sudo: yes
   roles:
     - common
+    - ruby
     - rails-dev
   tasks:
     - name: Clean APT's cache
