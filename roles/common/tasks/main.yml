@@ -26,6 +26,9 @@
   apt: name=git state=latest
   when: install_git
 
+- name: Install bzip2
+  apt: name=bzip2 state=latest
+
 - name: Generate default locale
   locale_gen: name={{ locale }} state=present
 
