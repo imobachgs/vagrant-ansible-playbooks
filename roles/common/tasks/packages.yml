@@ -1,0 +1,7 @@
+---
+# This playbook installs additional packages defined
+# by the 'common_packages' variable.
+
+- name: Additional common packages
+  apt: name={{ item }} state=latest
+  with_items: common_packages
