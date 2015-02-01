@@ -7,6 +7,10 @@
     - nodejs
     - npm
 
+- name: Install nodejs-legacy package
+  apt: name=nodejs-legacy state=latest cache_valid_time=3600 update_cache=true
+  when: ansible_distribution_release == 'trusty'
+
 - name: Install Bower, Gulp and Yeoman
   npm: name={{ item }} global=yes
   with_items:
