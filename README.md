@@ -11,7 +11,8 @@ rails-dev role
 --------------
 
 This role turns a Debian/Ubuntu machine into an environment to develop Ruby web
-applications (Ruby on Rails, Sinatra, etc.).
+applications (Ruby on Rails, Sinatra, etc.). It relies in 'ruby' and 'headless'
+roles.
 
 It includes:
 
@@ -28,6 +29,14 @@ It includes:
 * Some packages as `libxslt1-dev` or `libxml2-dev` that are useful to
   build some gems.
 
+ruby role
+---------
+
+* [chruby](https://github.com/postmodern/chruby).
+* [ruby-install](https://github.com/postmodern/ruby-install) to manage
+  [Ruby](http://ruby-lang.org/) versions (also the lastest 2.1.x available version
+  is installed).
+
 headless role
 -------------
 
@@ -42,6 +51,17 @@ Install and set up some browsers so you can drive integrations tests in
   it's enabled during boot time.  These tools are not installed by default.
 * [x11vnc](http://www.karlrunge.com/x11vnc/) to access to the Xvfb server
   through VNC.
+
+nodejs role
+-----------
+
+Install [NodeJS](http://nodejs.org/) and [npm](https://www.npmjs.org/) from
+[Joyent's repository](https://github.com/nodesource/distributions). It also the
+following packages through npm:
+
+* [Bower](https://bower.io)
+* [Gulp](http://gulpjs.com/)
+* [Yeoman](http://yeoman.io/)
 
 Usage
 =====
